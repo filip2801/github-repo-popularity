@@ -1,6 +1,6 @@
-package com.filip2801.yndexercise.domain;
+package com.filip2801.githubrepopopularity.domain;
 
-import com.filip2801.yndexercise.utils.Validator;
+import com.filip2801.githubrepopopularity.utils.Validator;
 
 public class RepositoryId {
 

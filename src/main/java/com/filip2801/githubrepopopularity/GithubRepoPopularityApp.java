@@ -1,4 +1,4 @@
-package com.filip2801.yndexercise;
+package com.filip2801.githubrepopopularity;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class YndExerciseApplication {
+public class GithubRepoPopularityApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(YndExerciseApplication.class, args);
+		SpringApplication.run(GithubRepoPopularityApp.class, args);
 	}
 
 	@Bean

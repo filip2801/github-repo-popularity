@@ -1,4 +1,4 @@
-package com.filip2801.yndexercise.utils
+package com.filip2801.githubrepopopularity.utils
 
 import spock.lang.Specification
 import spock.lang.Unroll

@@ -1,6 +1,6 @@
-package com.filip2801.yndexercise.domain
+package com.filip2801.githubrepopopularity.domain
 
-import com.filip2801.yndexercise.integration.GithubRepositoryResource
+import com.filip2801.githubrepopopularity.integration.GithubRepositoryResource
 import spock.lang.Specification
 import spock.lang.Unroll
 

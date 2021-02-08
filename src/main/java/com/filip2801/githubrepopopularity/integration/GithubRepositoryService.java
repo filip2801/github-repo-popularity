@@ -1,6 +1,6 @@
-package com.filip2801.yndexercise.integration;
+package com.filip2801.githubrepopopularity.integration;
 
-import com.filip2801.yndexercise.domain.RepositoryId;
+import com.filip2801.githubrepopopularity.domain.RepositoryId;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

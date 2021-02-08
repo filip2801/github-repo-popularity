@@ -1,4 +1,4 @@
-package com.filip2801.yndexercise.integration;
+package com.filip2801.githubrepopopularity.integration;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,6 +1,6 @@
-package com.filip2801.yndexercise.domain;
+package com.filip2801.githubrepopopularity.domain;
 
-import com.filip2801.yndexercise.integration.GithubRepositoryService;
+import com.filip2801.githubrepopopularity.integration.GithubRepositoryService;
 import org.springframework.stereotype.Service;
 
 @Service

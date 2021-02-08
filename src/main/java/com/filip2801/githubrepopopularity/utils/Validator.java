@@ -1,4 +1,4 @@
-package com.filip2801.yndexercise.utils;
+package com.filip2801.githubrepopopularity.utils;
 
 public class Validator {
 

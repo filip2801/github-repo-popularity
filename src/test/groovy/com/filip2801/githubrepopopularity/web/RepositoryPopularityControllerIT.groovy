@@ -1,6 +1,6 @@
-package com.filip2801.yndexercise.web
+package com.filip2801.githubrepopopularity.web
 
-import com.filip2801.yndexercise.IntegrationTestSpecification
+import com.filip2801.githubrepopopularity.IntegrationTestSpecification
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.junit.WireMockRule
 import groovyx.net.http.HttpResponseDecorator

@@ -1,4 +1,4 @@
-package com.filip2801.yndexercise
+package com.filip2801.githubrepopopularity
 
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles

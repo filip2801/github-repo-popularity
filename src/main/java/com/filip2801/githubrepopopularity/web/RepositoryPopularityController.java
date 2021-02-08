@@ -1,7 +1,7 @@
-package com.filip2801.yndexercise.web;
+package com.filip2801.githubrepopopularity.web;
 
-import com.filip2801.yndexercise.domain.RepositoryId;
-import com.filip2801.yndexercise.domain.RepositoryPopularityService;
+import com.filip2801.githubrepopopularity.domain.RepositoryId;
+import com.filip2801.githubrepopopularity.domain.RepositoryPopularityService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
