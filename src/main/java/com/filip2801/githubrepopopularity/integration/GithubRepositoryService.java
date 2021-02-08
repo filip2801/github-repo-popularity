@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -33,14 +34,18 @@ public class GithubRepositoryService {
 	public GithubRepositoryResource getRepository(RepositoryId repositoryId) {
 		LOGGER.info("Get details of {} repository", repositoryId.getRepositoryFullName());
 
-		ResponseEntity<GithubRepositoryResource> result = restTemplate.exchange(
-			getUrl(repositoryId),
-			HttpMethod.GET,
-			entityWithHeaders(),
-			GithubRepositoryResource.class);
+		try {
+			ResponseEntity<GithubRepositoryResource> result = restTemplate.exchange(
+				getUrl(repositoryId),
+				HttpMethod.GET,
+				entityWithHeaders(),
+				GithubRepositoryResource.class);
 
-		LOGGER.info("Repository details {}", result.getBody());
-		return result.getBody();
+			LOGGER.info("Repository details {}", result.getBody());
+			return result.getBody();
+		} catch (HttpClientErrorException.NotFound exception) {
+			throw new RepositoryNotFound();
+		}
 	}
 
 	private String getUrl(RepositoryId repositoryId) {

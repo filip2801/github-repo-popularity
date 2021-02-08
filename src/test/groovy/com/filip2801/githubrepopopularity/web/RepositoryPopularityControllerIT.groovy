@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import spock.lang.Shared
 
 class RepositoryPopularityControllerIT extends IntegrationTestSpecification {
 
@@ -20,6 +21,7 @@ class RepositoryPopularityControllerIT extends IntegrationTestSpecification {
 	@Value('${server.servlet.context-path:/}')
 	String contextPath
 
+	@Shared
 	RESTClient restClient = new RESTClient()
 
 	@Rule
@@ -28,6 +30,14 @@ class RepositoryPopularityControllerIT extends IntegrationTestSpecification {
 	def setup() {
 		restClient.setUri("http://localhost:${port}${contextPath}/")
 		restClient.setContentType(MediaType.APPLICATION_JSON_VALUE)
+	}
+
+	def setupSpec() {
+		// change default rest client behaviour to not fail when response status is 4xx or 5xx
+		restClient.handler.failure = { resp, data ->
+			resp.setData(data)
+			return resp
+		}
 	}
 
 	def "should get repository popularity"() {
@@ -52,6 +62,22 @@ class RepositoryPopularityControllerIT extends IntegrationTestSpecification {
 		response.status == HttpStatus.OK.value()
 		response.data.repositoryFullName == "${repositoryOwner}/${repositoryName}"
 		response.data.popular == true
+	}
+
+	def "should respond with 404 when repository doesn't exist"() {
+		given:
+		def repositoryOwner = "some-owner"
+		def repositoryName = "some-not-existing-repo"
+
+		wireMockRule.stubFor(WireMock.get(WireMock.urlEqualTo("/repos/${repositoryOwner}/${repositoryName}"))
+								 .willReturn(WireMock.aResponse()
+												 .withStatus(404)))
+
+		when:
+		def response = restClient.get(path: "/repositories/${repositoryOwner}/${repositoryName}/popularity") as HttpResponseDecorator
+
+		then:
+		response.status == HttpStatus.NOT_FOUND.value()
 	}
 
 }
