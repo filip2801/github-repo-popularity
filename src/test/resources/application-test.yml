@@ -1,2 +1,6 @@
 githubApi:
   baseUrl: http://localhost:18080
+
+timeout:
+  connection: 10
+  read: 10

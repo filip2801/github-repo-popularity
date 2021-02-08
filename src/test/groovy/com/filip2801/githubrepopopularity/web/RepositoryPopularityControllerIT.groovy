@@ -30,6 +30,7 @@ class RepositoryPopularityControllerIT extends IntegrationTestSpecification {
 	def setup() {
 		restClient.setUri("http://localhost:${port}${contextPath}/")
 		restClient.setContentType(MediaType.APPLICATION_JSON_VALUE)
+		wireMockRule.resetAll()
 	}
 
 	def setupSpec() {
@@ -78,6 +79,44 @@ class RepositoryPopularityControllerIT extends IntegrationTestSpecification {
 
 		then:
 		response.status == HttpStatus.NOT_FOUND.value()
+	}
+
+	def "should respond with 502 when github api responds with error"() {
+		given:
+		def repositoryOwner = "some-owner"
+		def repositoryName = UUID.randomUUID().toString()
+
+		wireMockRule.stubFor(WireMock.get(WireMock.urlEqualTo("/repos/${repositoryOwner}/${repositoryName}"))
+								 .willReturn(WireMock.aResponse()
+												 .withStatus(500)))
+
+		when:
+		def response = restClient.get(path: "/repositories/${repositoryOwner}/${repositoryName}/popularity") as HttpResponseDecorator
+
+		then:
+		response.status == HttpStatus.BAD_GATEWAY.value()
+	}
+
+	def "should respond with 502 when github api responds too slow"() {
+		given:
+		def repositoryOwner = "some-owner"
+		def repositoryName = UUID.randomUUID().toString()
+
+		wireMockRule.stubFor(WireMock.get(WireMock.urlEqualTo("/repos/${repositoryOwner}/${repositoryName}"))
+								 .willReturn(WireMock.aResponse()
+												 .withStatus(200)
+												 .withFixedDelay(20)
+												 .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+												 .withBody("""{
+													"stargazers_count": 100,
+													"forks_count": 300
+													}""")))
+
+		when:
+		def response = restClient.get(path: "/repositories/${repositoryOwner}/${repositoryName}/popularity") as HttpResponseDecorator
+
+		then:
+		response.status == HttpStatus.BAD_GATEWAY.value()
 	}
 
 }
