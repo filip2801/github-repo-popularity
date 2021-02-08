@@ -1,12 +1,14 @@
 package com.filip2801.yndexercise.web;
 
+import com.filip2801.yndexercise.domain.RepositoryId;
+
 class RepositoryPopularityResource {
 
 	private final String repositoryFullName;
 	private final boolean popular;
 
-	public RepositoryPopularityResource(String repositoryFullName, boolean popular) {
-		this.repositoryFullName = repositoryFullName;
+	public RepositoryPopularityResource(RepositoryId repositoryId, boolean popular) {
+		this.repositoryFullName = repositoryId.getRepositoryFullName();
 		this.popular = popular;
 	}
 
