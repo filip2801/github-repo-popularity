@@ -1,36 +1,54 @@
 # Popular GitHub Repositories
 
-Design and implement a service checking whether the provided GitHub repository is popular or not.
-Here, popular GitHub repository means one for which `score >= 500` where `score = num_stars * 1 + num_forks * 2`.
+Application made as a job interview task. See [exercise requirements](./exercise-requirements.md). 
 
-To retrieve information about a particular repository, use GitHub's official [REST API](https://docs.github.com/en/rest).
+Allows to check if provided github repository is popular. Info about repository is fetched from GitHub's official [REST API](https://docs.github.com/en/rest).
 
-Design and implement a RESTful API for this service.
+## Tech stack
+Spring boot application written in Java.
 
-## Non-functional requirements
+Technologies
+* jdk11
+* gradle 6.7.1
+* spring-boot 2.4.2
+* resilience4j - for retries
+* springdoc-openapi-ui - api docs
+* groovy & spock - for testing
+* wiremock - for stubbing github api in integration test
 
-1. the service should:
-   1. use Java with Spring Boot
-   1. be dockerized
-   1. respond within 0.5 second
-1. the service should include:
-   1. Swagger API documentation
-   1. health check
-1. readme should be replaced with brief notes covering:
-   1. service description with all made assumptions
-   1. tech stack used (runtime environment, frameworks, key libraries)
-   1. how to:
-      1. build the service
-      1. run automatic tests
-      1. run the service locally
-   1. what improvements would you make if you had more time
+## Running unit and integration tests
+Requirements: JDK 11
 
-## Evaluation criteria
+Run `./gradlew clean check`
 
-1. alignment with the requirements
-1. usage of best practices when dealing with edge cases that are not covered here
-1. code quality and readability
-1. presence and quality of (or lack of) automatic tests
-1. commit history (thought process, commit messages)
+## Building docker image
+Requirements: docker
 
-Your work should be handed off in a form of a PR to the private repository that you were given. You are responsible for picking a deadline for its delivery, communicating it and sticking to it.
+Run `docker build -t github-repo-popularity .`
+
+## Running app
+Requirements: docker and built docker image
+
+Run `docker run -d -p 8080:8080 github-repo-popularity`
+
+## Endpoints
+### Github repository popularity
+To check repository popularity replace placeholders and run
+```
+curl -X GET "http://localhost:8080/repositories/{owner}/{repositoryName}/popularity"
+```
+example:
+```
+curl -X GET "http://localhost:8080/repositories/spring-projects/spring-boot/popularity"
+```
+
+### Health
+http://localhost:8080/actuator/health
+
+## Swagger
+Go to http://localhost:8080/swagger-ui.html
+
+## What can be added
+* CI
+* metrics (jvm, resilience4j, number of errors)
+* CD
